@@ -128,23 +128,26 @@ position_BG = BG.get_rect()
 position_BG.topleft = (-1100, -1300)
 
 
+
 class Zombie(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, m0, m1, m2, m3, vie, dommage, vitesse, barre):
         super().__init__()
-        self.image = pygame.image.load('0.png')
+        self.image = pygame.image.load(m0)
         self.rect = self.image.get_rect()
         self.taille = 10
         self.x = randint(10,1500)
         self.y = randint(10,900)
         self.rect.topleft = [self.x,self.y]
-        self.vitesse = 1
-        self.vie = 50
-        self.max_vie = 50
+        self.vitesse = vitesse
+        self.vie = vie
+        self.max_vie = vie
+        self.dommage = dommage
+        self.barre = barre
         self.deplacement = []
-        self.deplacement.append(pygame.image.load('0.png'))
-        self.deplacement.append(pygame.image.load('1.png'))
-        self.deplacement.append(pygame.image.load('2.png'))
-        self.deplacement.append(pygame.image.load('3.png'))
+        self.deplacement.append(pygame.image.load(m0))
+        self.deplacement.append(pygame.image.load(m1))
+        self.deplacement.append(pygame.image.load(m2))
+        self.deplacement.append(pygame.image.load(m3))
         self.sprite_actuelle = 0
         self.mouvement = False
         
@@ -167,7 +170,7 @@ class Zombie(pygame.sprite.Sprite):
         distance = (distance_x**2 + distance_y**2)**0.5
         
         if distance <= 40:
-            player.vie -= 0.5
+            player.vie -= self.dommage
         
         if distance < 900:
             if self.rect[0] < player.rect[0]:
@@ -184,8 +187,8 @@ class Zombie(pygame.sprite.Sprite):
         couleur_fond_barre = (0, 0, 0)
         
         
-        barre_position = [self.rect[0] + 10, self.rect[1] - 10, self.vie, 6]
-        barre_position_fond = [self.rect[0] + 10, self.rect[1] - 10, self.max_vie, 6]
+        barre_position = [self.rect[0] - self.barre, self.rect[1] - 10, self.vie, 6]
+        barre_position_fond = [self.rect[0] - self.barre, self.rect[1] - 10, self.max_vie, 6]
         
         pygame.draw.rect(screen, couleur_fond_barre, barre_position_fond)
         pygame.draw.rect(screen, couleur_barre_vie, barre_position)
@@ -196,7 +199,7 @@ class Zombie(pygame.sprite.Sprite):
         distance_y = target_y - self.rect[1]
         distance = (distance_x**2 + distance_y**2)**0.5
         
-        if distance <= 60:
+        if distance <= 70:
             self.vie -= 0.8
                 
    
@@ -243,30 +246,63 @@ player_bullets = []
 
 zombie = pygame.sprite.Group()
 for i in range(1):
-    monstre = Zombie()
+    monstre = Zombie('0.png', '1.png', '2.png', '3.png', 50, 0.5, 1, -10)
     zombie.add(monstre)
 
 def vague(n):
     for i in range(n):
-        monstre = Zombie()
+        monstre = Zombie('0.png', '1.png', '2.png', '3.png', 50, 0.5, 1, -10)
         zombie.add(monstre)            
 
 def main_jeux():
     n = 2
+    cooldown = 400
+    last_shot = 0
+    apparition = True
+    apparition_2 = True
     while True:
         
         screen.fill('blue')
         mouse_x, mouse_y = pygame.mouse.get_pos()
         
+        
+        
+        if (player.rect.left - 250) < position_BG.left:
+            player.vie -= 0.3
+            
+        if (player.rect.right + 450) > position_BG.right:
+            player.vie -= 0.3
+            
+        if (player.rect.top - 20) < position_BG.top:
+            player.vie -= 0.3
+    
+        if (player.rect.bottom + 400) > position_BG.bottom:
+            player.vie -= 0.3
+            
+        
         if len(zombie) == 0:
             vague(n)
             n += 1
+            
+        if n == 11  and apparition == True:
+            pere = Zombie('00.png', '11.png', '22.png', '33.png', 150, 1, 2, -10)
+            zombie.add(pere)
+            apparition = False
+            
+            
+        if n == 21 and apparition_2 == True:
+            vert = Zombie('g1.png', 'g2.png', 'g3.png', 'g4.png', 250, 1.5, 4, 70)
+            zombie.add(vert)
+            apparition_2 = False
+            
+            
 
-        
+       
         for event in pygame.event.get():
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
+                if event.button == 1 and pygame.time.get_ticks() - last_shot > cooldown:
                     player_bullets.append(Playerbullet(player.rect[0], player.rect[1] + 10, mouse_x, mouse_y))
+                    last_shot = pygame.time.get_ticks()
                     
                     
             if event.type == pygame.KEYDOWN:
@@ -341,4 +377,5 @@ def main_jeux():
                 
                 
 main_jeux()
+
 
