@@ -36,7 +36,7 @@ class Player:
         
         # On initialise d'autres variables telles que les points de vie
         # ou encore la position par rapport à la carte
-        self.image = pygame.image.load('Sprites_NSI/player.png')
+        self.image = pygame.image.load('Sprites_NSI/personnage.png')
         self.rect = self.image.get_rect()
         self.rect.topleft = [self.x,self.y]
         self.vie = 50
@@ -45,25 +45,25 @@ class Player:
         # On créer ensuite des listes qui contiendront unes à unes les sprites,
         # permettant de donner l'illusion d'un mouvement "fluide"
         self.sprites_haut = []
-        self.sprites_haut.append(pygame.image.load('Sprites_NSI/up_0.png'))
-        self.sprites_haut.append(pygame.image.load('Sprites_NSI/up_1.png'))
-        self.sprites_haut.append(pygame.image.load('Sprites_NSI/up_2.png'))
-        self.sprites_haut.append(pygame.image.load('Sprites_NSI/up_3.png'))
+        self.sprites_haut.append(pygame.image.load('Sprites_NSI/perso_haut_0.png'))
+        self.sprites_haut.append(pygame.image.load('Sprites_NSI/perso_haut_1.png'))
+        self.sprites_haut.append(pygame.image.load('Sprites_NSI/perso_haut_2.png'))
+        self.sprites_haut.append(pygame.image.load('Sprites_NSI/perso_haut_3.png'))
         self.sprites_bas = []
-        self.sprites_bas.append(pygame.image.load('Sprites_NSI/down_0.png'))
-        self.sprites_bas.append(pygame.image.load('Sprites_NSI/down_1.png'))
-        self.sprites_bas.append(pygame.image.load('Sprites_NSI/down_2.png'))
-        self.sprites_bas.append(pygame.image.load('Sprites_NSI/down_3.png'))
+        self.sprites_bas.append(pygame.image.load('Sprites_NSI/perso_bas_0.png'))
+        self.sprites_bas.append(pygame.image.load('Sprites_NSI/perso_bas_1.png'))
+        self.sprites_bas.append(pygame.image.load('Sprites_NSI/perso_bas_2.png'))
+        self.sprites_bas.append(pygame.image.load('Sprites_NSI/perso_bas_3.png'))
         self.sprites_droite = []
-        self.sprites_droite.append(pygame.image.load('Sprites_NSI/right_0.png'))
-        self.sprites_droite.append(pygame.image.load('Sprites_NSI/right_1.png'))
-        self.sprites_droite.append(pygame.image.load('Sprites_NSI/right_2.png'))
-        self.sprites_droite.append(pygame.image.load('Sprites_NSI/right_3.png'))
+        self.sprites_droite.append(pygame.image.load('Sprites_NSI/perso_droite_0.png'))
+        self.sprites_droite.append(pygame.image.load('Sprites_NSI/perso_droite_1.png'))
+        self.sprites_droite.append(pygame.image.load('Sprites_NSI/perso_droite_2.png'))
+        self.sprites_droite.append(pygame.image.load('Sprites_NSI/perso_droite_3.png'))
         self.sprites_gauche = []
-        self.sprites_gauche.append(pygame.image.load('Sprites_NSI/left_0.png'))
-        self.sprites_gauche.append(pygame.image.load('Sprites_NSI/left_1.png'))
-        self.sprites_gauche.append(pygame.image.load('Sprites_NSI/left_2.png'))
-        self.sprites_gauche.append(pygame.image.load('Sprites_NSI/left_3.png'))
+        self.sprites_gauche.append(pygame.image.load('Sprites_NSI/perso_gauche_0.png'))
+        self.sprites_gauche.append(pygame.image.load('Sprites_NSI/perso_gauche_1.png'))
+        self.sprites_gauche.append(pygame.image.load('Sprites_NSI/perso_gauche_2.png'))
+        self.sprites_gauche.append(pygame.image.load('Sprites_NSI/perso_gauche_3.png'))
         self.sprite_actuel = 0
         
        
@@ -279,12 +279,12 @@ player_bullets = []
 lst_monstres = pygame.sprite.Group()
 
 # On place notre premier enemie à éliminer dans la liste pour le faire apparaître dans le jeu
-lst_monstres.add(Monstre('Sprites_NSI/0.png', 'Sprites_NSI/1.png', 'Sprites_NSI/2.png', 'Sprites_NSI/3.png', 50, 0.5, 1, -10))
+lst_monstres.add(Monstre('Sprites_NSI/monstre_0.png', 'Sprites_NSI/monstre_1.png', 'Sprites_NSI/monstre_2.png', 'Sprites_NSI/monstre_3.png', 50, 0.5, 1, -10))
 
 # On a ici un système de 'vague' c'est-à-dire que les monstres arriveront de plus en plus nombreux
 def vague(nombre_enemie):
     for i in range(nombre_enemie):
-        lst_monstres.add(Monstre('Sprites_NSI/0.png', 'Sprites_NSI/1.png', 'Sprites_NSI/2.png', 'Sprites_NSI/3.png', 50, 0.5, 1, -10))            
+        lst_monstres.add(Monstre('Sprites_NSI/monstre_0.png', 'Sprites_NSI/monstre_1.png', 'Sprites_NSI/monstre_2.png', 'Sprites_NSI/monstre_3.png', 50, 0.5, 1, -10))            
 
 # C'est ici que le jeu va tourner en boucle, permettre tous les déplacements, les interactions ...
 def main_jeux():
@@ -315,12 +315,12 @@ def main_jeux():
             nombre_enemie += 1
         
         # Nous avons un système de 'Mini-Boss', ils apparaitront à partir d'un certain palier (un certains nombre de vagues survécues)
-        if nombre_enemie == 11  and apparition == True:
-            lst_monstres.add(Monstre('Sprites_NSI/00.png', 'Sprites_NSI/11.png', 'Sprites_NSI/22.png', 'Sprites_NSI/33.png', 150, 1, 2, -10))
+        if nombre_enemie == 2  and apparition == True:
+            lst_monstres.add(Monstre('Sprites_NSI/boss_1_0.png', 'Sprites_NSI/boss_1_1.png', 'Sprites_NSI/boss_1_2.png', 'Sprites_NSI/boss_1_3.png', 150, 1, 2, -10))
             apparition = False
                 
-        if nombre_enemie == 21 and apparition_2 == True:
-            lst_monstres.add(Monstre('Sprites_NSI/g1.png', 'Sprites_NSI/g2.png', 'Sprites_NSI/g3.png', 'Sprites_NSI/g4.png', 250, 1.5, 4, 70))
+        if nombre_enemie == 5 and apparition_2 == True:
+            lst_monstres.add(Monstre('Sprites_NSI/boss_2_0.png', 'Sprites_NSI/boss_2_1.png', 'Sprites_NSI/boss_2_2.png', 'Sprites_NSI/boss_2_3.png', 250, 1.5, 4, 70))
             apparition_2 = False
             
             
