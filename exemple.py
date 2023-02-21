@@ -18,7 +18,7 @@ HAUTEUR = 1300
 
 fenetre = pygame.display.set_mode((LARGEUR,HAUTEUR))
 
-carte = pygame.image.load('bg.png').convert_alpha()
+carte = pygame.image.load('map.png').convert_alpha()
 position_carte = carte.get_rect()
 position_carte.topleft = (-1100, -1300)
 
